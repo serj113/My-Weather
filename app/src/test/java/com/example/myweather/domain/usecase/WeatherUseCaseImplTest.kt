@@ -7,21 +7,18 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.hasSize
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
 
 class WeatherUseCaseImplTest {
 
-    @MockK
-    lateinit var repository: WeatherRepository
+    private val repository: WeatherRepository = mockk()
 
     private lateinit var useCase: WeatherUseCase
 
     @Before
     fun setUp() {
-        repository = mockk()
         useCase = WeatherUseCaseImpl(repository)
     }
 
