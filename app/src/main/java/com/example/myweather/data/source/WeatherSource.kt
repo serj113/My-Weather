@@ -1,11 +1,11 @@
 package com.example.myweather.data.source
 
-import com.example.myweather.data.model.WeatherModel
+import com.example.myweather.data.model.Forecast
 
 interface WeatherCacheSource {
-    fun getWeathers(): List<WeatherModel>
+    fun getWeathers(): List<Forecast>
 }
 
 interface WeatherRemoteSource {
-    fun getWeathers(): List<WeatherModel>
+    fun getWeathers(): List<Forecast>
 }
