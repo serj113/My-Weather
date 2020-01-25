@@ -1,9 +1,9 @@
 package com.example.myweather.data.model
 
-data class City (
+data class CityRemote (
     val id : Int,
     val name : String,
-    val coord : Coord,
+    val coord : CoordRemote,
     val country : String,
     val population : Int,
     val timezone : Int,

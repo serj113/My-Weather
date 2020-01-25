@@ -1,17 +1,15 @@
 package com.example.myweather.domain.usecase
 
-import com.example.myweather.domain.entity.Weather
+import com.example.myweather.domain.entity.forecast
 import com.example.myweather.domain.interactor.WeatherUseCase
 import com.example.myweather.domain.repository.WeatherRepository
-import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.equalTo
-import com.natpryce.hamkrest.hasSize
 import io.mockk.every
 import io.mockk.mockk
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 
-class WeatherUseCaseImplTest {
+class WeatherRemoteUseCaseImplTest {
 
     private val repository: WeatherRepository = mockk()
 
@@ -25,14 +23,14 @@ class WeatherUseCaseImplTest {
     @Test
     fun `use case getWeathers should return list of weathers`() {
         // given
-        val weathersResponse = listOf<Weather>()
-        every { repository.getWeathers() } returns listOf()
+        val city = "denpasar"
+        every { repository.getWeathers(city) } returns Single.just(forecast)
 
         // when
-        val weathers = useCase.getWeathers()
+        val forecastResult = useCase.getWeathers(city).test()
 
         // then
-        assertThat(weathers, hasSize(equalTo(weathersResponse.size)))
+        forecastResult.assertValue(forecast)
     }
 
 }

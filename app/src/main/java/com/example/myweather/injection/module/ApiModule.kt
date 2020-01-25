@@ -40,9 +40,9 @@ class ApiModule {
     }
 
     /**
-     * Provides the Weather service implementation.
+     * Provides the WeatherRemote service implementation.
      * @param retrofit the Retrofit object used to instantiate the service
-     * @return the Weather service implementation.
+     * @return the WeatherRemote service implementation.
      */
     @Provides
     @Singleton

@@ -1,6 +1,6 @@
-package com.example.myweather.data.model
+package com.example.myweather.domain.entity
 
-data class Main (
+data class Main(
     val temp : Double,
     val feels_like : Double,
     val temp_min : Double,

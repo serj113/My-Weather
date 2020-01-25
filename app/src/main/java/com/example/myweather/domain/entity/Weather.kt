@@ -1,5 +1,8 @@
 package com.example.myweather.domain.entity
 
 data class Weather(
-    var title: String
+    val id : Int,
+    val main : String,
+    val description : String,
+    val icon : String
 )

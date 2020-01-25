@@ -1,11 +1,12 @@
 package com.example.myweather.data.source
 
-import com.example.myweather.data.model.Forecast
+import com.example.myweather.data.model.ForecastRemote
+import io.reactivex.Single
 
 interface WeatherCacheSource {
-    fun getWeathers(): List<Forecast>
+    fun getWeathers(city: String): List<ForecastRemote>
 }
 
 interface WeatherRemoteSource {
-    fun getWeathers(): List<Forecast>
+    fun getWeathers(city: String): Single<ForecastRemote>
 }

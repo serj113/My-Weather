@@ -15,7 +15,7 @@ import com.example.myweather.weatherlist.dummy.DummyContent
 import com.example.myweather.weatherlist.dummy.DummyContent.DummyItem
 
 /**
- * A fragment representing a list of Items.
+ * A fragment representing a listRemote of Items.
  * Activities containing this fragment MUST implement the
  * [WeatherListFragment.OnListFragmentInteractionListener] interface.
  */
