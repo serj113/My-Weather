@@ -36,10 +36,10 @@ val listWeatherRemote = ListWeatherRemote(
     "dt_txt"
 )
 val forecastRemote = ForecastRemote(
-    1,
+    "1",
     2,
     3,
-    listOf(listWeatherRemote),
-    cityRemote
+    4,
+    listOf(listWeatherRemote)
 )
 val response = Response(forecastRemote)
