@@ -6,6 +6,9 @@ import com.example.myweather.data.source.WeatherCacheSource
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.Single
+import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -16,13 +19,19 @@ class WeatherRemoteCacheSourceImplTest {
     @Before
     fun setUp() {
         weatherCacheSource = WeatherCacheSourceImpl(weatherDao)
+        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
+    }
+
+    @After
+    fun tearDown() {
+        RxJavaPlugins.setIoSchedulerHandler { null }
     }
 
     @Test
     fun `get weather from cache source should return list of weather`() {
         // given
         val city = "denpasar"
-        every { weatherCacheSource.getWeathers(city) } returns Single.just(forecastRemote)
+        every { weatherDao.getForecastById(city) } returns Single.just(forecastRemote)
 
         // when
         val weathersResult = weatherCacheSource.getWeathers(city).test()
