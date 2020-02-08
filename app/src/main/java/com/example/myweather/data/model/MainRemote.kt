@@ -1,7 +1,9 @@
 package com.example.myweather.data.model
 
+import androidx.room.Entity
 import com.example.myweather.domain.entity.Main
 
+@Entity
 data class MainRemote(
     val temp: Double,
     val feels_like: Double,

@@ -5,11 +5,10 @@ import androidx.room.Entity
 import com.example.myweather.domain.entity.ListWeather
 
 @Entity
-data class ListWeatherRemote(
+data class ListWeatherCache(
     val dt: Int,
     @Embedded
     val main: MainRemote,
-    val weather: List<WeatherRemote>,
     @Embedded
     val clouds: CloudsRemote,
     @Embedded
@@ -18,8 +17,3 @@ data class ListWeatherRemote(
     val sys: SysRemote,
     val dt_txt: String
 )
-
-fun ListWeatherRemote.mapToDomain(): ListWeather =
-    ListWeather(dt, main.mapToDomain(), weather.mapToDomain(), dt_txt)
-
-fun List<ListWeatherRemote>.mapToDomain(): List<ListWeather> = map { it.mapToDomain() }
