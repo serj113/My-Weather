@@ -2,18 +2,22 @@ package com.example.myweather.data.model
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.myweather.domain.entity.ListWeather
 
 @Entity
 data class ListWeatherCache(
-    val dt: Int,
+    @PrimaryKey
+    var id : Int,
+    var dt: Int,
+    var forecastId: Int,
     @Embedded
-    val main: MainRemote,
+    var main: MainRemote,
     @Embedded
-    val clouds: CloudsRemote,
+    var clouds: CloudsRemote,
     @Embedded
-    val wind: WindRemote,
+    var wind: WindRemote,
     @Embedded
-    val sys: SysRemote,
-    val dt_txt: String
+    var sys: SysRemote,
+    var dt_txt: String
 )
