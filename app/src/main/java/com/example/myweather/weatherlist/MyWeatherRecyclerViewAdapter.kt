@@ -2,63 +2,35 @@ package com.example.myweather.weatherlist
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.example.myweather.R
+import com.example.myweather.databinding.FragmentWeatherListItemBinding
+import com.example.myweather.viewmodel.WeatherListItemViewModel
 
 
-import com.example.myweather.weatherlist.WeatherListFragment.OnListFragmentInteractionListener
 import com.example.myweather.weatherlist.dummy.DummyContent.DummyItem
 
-import kotlinx.android.synthetic.main.fragment_weather.view.*
-
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
 class MyWeatherRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
-    private val mListener: OnListFragmentInteractionListener?
+    private val mValues: List<DummyItem>
 ) : RecyclerView.Adapter<MyWeatherRecyclerViewAdapter.ViewHolder>() {
 
-    private val mOnClickListener: View.OnClickListener
-
-    init {
-        mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            mListener?.onListFragmentInteraction(item)
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_weather, parent, false)
-        return ViewHolder(view)
+        val binding = FragmentWeatherListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
-
-        with(holder.mView) {
-            tag = item
-            setOnClickListener(mOnClickListener)
-        }
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int = mValues.size
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
+    inner class ViewHolder(val binding: FragmentWeatherListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val viewModel = WeatherListItemViewModel()
 
-        override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
+        fun bind(item: DummyItem) {
+            viewModel.bind(item)
+            binding.viewModel = viewModel
         }
     }
 }
