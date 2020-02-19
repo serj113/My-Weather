@@ -1,19 +1,16 @@
 package com.example.myweather.injection.module
 
-import android.app.Application
+import android.content.Context
+import com.example.myweather.App
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
 
 @Module
-class ApplicationModule {
+abstract class ApplicationModule {
     /**
      * Provides the application.
      * @return the application.
      */
-    @Provides
-    @Singleton
-    fun provideApplicationContext(application: Application): Application {
-        return application
-    }
+    @Binds
+    abstract fun provideApplicationContext(app: App): Context
 }
