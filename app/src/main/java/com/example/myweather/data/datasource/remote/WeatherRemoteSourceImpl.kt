@@ -13,6 +13,5 @@ constructor(private val weatherApi: WeatherApi) : WeatherRemoteSource {
     override fun getWeathers(city: String): Single<ForecastRemote> {
         return weatherApi.getForecast(city)
             .subscribeOn(Schedulers.io())
-            .map { it.weather }
     }
 }

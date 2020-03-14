@@ -34,7 +34,7 @@ class WeatherRemoteRemoteSourceImplTest {
     fun `get weather from remote source should return list of weather`() {
         // given
         val city = "denpasar"
-        every { weatherApi.getForecast(city) } returns Single.just(response)
+        every { weatherApi.getForecast(city) } returns Single.just(forecastRemote)
 
         // when
         val forecastRemoteResult = weatherRemoteSource.getWeathers(city).test()

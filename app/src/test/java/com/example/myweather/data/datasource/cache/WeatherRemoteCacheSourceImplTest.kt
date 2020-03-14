@@ -1,7 +1,7 @@
 package com.example.myweather.data.datasource.cache
 
 import com.example.myweather.data.dao.WeatherDao
-import com.example.myweather.data.model.forecastRemote
+import com.example.myweather.data.model.forecastCache
 import com.example.myweather.data.source.WeatherCacheSource
 import io.mockk.every
 import io.mockk.mockk
@@ -31,12 +31,12 @@ class WeatherRemoteCacheSourceImplTest {
     fun `get weather from cache source should return list of weather`() {
         // given
         val city = "denpasar"
-        every { weatherDao.getForecastById(city) } returns Single.just(forecastRemote)
+        every { weatherDao.getForecastById(city) } returns Single.just(forecastCache)
 
         // when
         val weathersResult = weatherCacheSource.getWeathers(city).test()
 
         // then
-        weathersResult.assertValue(forecastRemote)
+        weathersResult.assertValue(forecastCache)
     }
 }

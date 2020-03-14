@@ -7,13 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.myweather.R
 import com.example.myweather.databinding.FragmentWeatherListBinding
 import com.example.myweather.utils.ViewModelFactory
 import com.example.myweather.viewmodel.WeatherListViewModel
 
-import com.example.myweather.weatherlist.dummy.DummyContent
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_weather_list.view.*
 import javax.inject.Inject
@@ -21,6 +20,8 @@ import javax.inject.Inject
 class WeatherListFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    private lateinit var adapter: MyWeatherRecyclerViewAdapter
 
     private val viewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory).get(WeatherListViewModel::class.java)
@@ -36,15 +37,20 @@ class WeatherListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentWeatherListBinding.inflate(inflater, container, false)
+        adapter = MyWeatherRecyclerViewAdapter()
 
-        if (binding.root.list is RecyclerView) {
-            with(binding.root.list) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = MyWeatherRecyclerViewAdapter(DummyContent.ITEMS)
-            }
-        }
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.recyclerView.also {
+            it.layoutManager = LinearLayoutManager(context)
+            it.adapter = adapter
+        }
+
+        viewModel.getForecast().observe(viewLifecycleOwner, Observer {
+            adapter.setList(it.weathers)
+        })
+
+        viewModel.fetchForecast("Jakarta")
         return binding.root
     }
 }

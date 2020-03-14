@@ -43,3 +43,9 @@ val forecastRemote = ForecastRemote(
     listOf(listWeatherRemote)
 )
 val response = Response(forecastRemote)
+val forecastCache = ForecastCache(
+    "1",
+    2,
+    3,
+    4
+)
