@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.myweather.viewmodel.WeatherListItemViewModel" />
+            type="com.example.myweather.ui.viewmodel.WeatherListItemViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

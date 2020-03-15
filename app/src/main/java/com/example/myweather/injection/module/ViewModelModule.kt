@@ -2,10 +2,9 @@ package com.example.myweather.injection.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.myweather.base.BaseViewModel
 import com.example.myweather.utils.ViewModelFactory
 import com.example.myweather.utils.ViewModelKey
-import com.example.myweather.viewmodel.WeatherListViewModel
+import com.example.myweather.ui.viewmodel.WeatherListViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

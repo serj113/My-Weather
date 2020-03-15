@@ -10,6 +10,7 @@ interface WeatherApi {
     @GET("forecast")
     fun getForecast(
         @Query("q") city: String,
+        @Query("units") units: String = "metric",
         @Query("appid") apiKey: String = API_KEY
     ): Single<ForecastRemote>
 }

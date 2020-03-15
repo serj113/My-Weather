@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.myweather.viewmodel.WeatherListViewModel" />
+            type="com.example.myweather.ui.viewmodel.WeatherListViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -18,6 +18,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".weatherlist.WeatherListFragment"
+        tools:context=".ui.weatherlist.WeatherListFragment"
         tools:listitem="@layout/fragment_weather_list_item" />
 </layout>

@@ -3,11 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/weatherListFragment">
+    app:startDestination="@id/loadingFragment">
 
     <fragment
         android:id="@+id/weatherListFragment"
-        android:name="com.example.myweather.weatherlist.WeatherListFragment"
+        android:name="com.example.myweather.ui.weatherlist.WeatherListFragment"
         android:label="fragment_weather_list"
         tools:layout="@layout/fragment_weather_list" />
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="com.example.myweather.ui.loading.LoadingFragment"
+        android:label="LoadingFragment"
+        android:layout="@layout/fragment_loading">
+        <action
+            android:id="@+id/action_loadingFragment_to_weatherListFragment"
+            app:destination="@id/weatherListFragment" />
+        <action
+            android:id="@+id/action_loadingFragment_to_errorFragment"
+            app:destination="@id/errorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/errorFragment"
+        android:name="com.example.myweather.ui.error.ErrorFragment"
+        android:label="fragment_error"
+        tools:layout="@layout/fragment_error" >
+        <action
+            android:id="@+id/action_errorFragment_to_loadingFragment"
+            app:destination="@id/loadingFragment" />
+    </fragment>
 </navigation>

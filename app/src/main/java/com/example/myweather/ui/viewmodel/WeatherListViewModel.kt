@@ -1,26 +1,29 @@
-package com.example.myweather.viewmodel
+package com.example.myweather.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myweather.base.BaseViewModel
-import com.example.myweather.domain.entity.Forecast
 import com.example.myweather.domain.interactor.WeatherUseCase
+import com.example.myweather.ui.model.Weather
+import com.example.myweather.ui.model.toWeather
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class WeatherListViewModel
 @Inject
 constructor(private val weatherUseCase: WeatherUseCase) : BaseViewModel() {
-    private val forecast = MutableLiveData<Forecast>()
+    private val weathers = MutableLiveData<List<Weather>>()
 
     fun fetchForecast(city: String) {
         addDisposable(
             weatherUseCase.getWeathers(city)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {
-                        forecast.value = it
+                    { result ->
+                        weathers.value = result.weathers
+                            .filterIndexed { idx, _ -> idx % 8 == 0 }
+                            .map { it.toWeather() }
                     },
                     {
 
@@ -29,5 +32,10 @@ constructor(private val weatherUseCase: WeatherUseCase) : BaseViewModel() {
         )
     }
 
-    fun getForecast(): LiveData<Forecast> = forecast
+    fun getWeathers(): LiveData<List<Weather>> = weathers
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("tada", "tada")
+    }
 }
