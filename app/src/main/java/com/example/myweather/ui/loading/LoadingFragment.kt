@@ -36,11 +36,14 @@ class LoadingFragment : Fragment() {
         binding.lifecycleOwner = this
 
         viewModel.getWeathers().observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) {
-                val direction = LoadingFragmentDirections.actionLoadingFragmentToWeatherListFragment()
+            val direction = LoadingFragmentDirections.actionLoadingFragmentToWeatherListFragment()
+            NavHostFragment.findNavController(this).navigate(direction)
+        })
+        viewModel.isError().observe(viewLifecycleOwner, Observer {
+            var result = it.getContentIfNotHandled()
+            if (result != null && result) {
+                val direction = LoadingFragmentDirections.actionLoadingFragmentToErrorFragment()
                 NavHostFragment.findNavController(this).navigate(direction)
-            } else {
-                viewModel.fetchForecast("Jakarta")
             }
         })
         viewModel.fetchForecast("Jakarta")

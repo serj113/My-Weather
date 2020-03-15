@@ -7,13 +7,20 @@ import com.example.myweather.base.BaseViewModel
 import com.example.myweather.domain.interactor.WeatherUseCase
 import com.example.myweather.ui.model.Weather
 import com.example.myweather.ui.model.toWeather
+import com.example.myweather.utils.Event
+import com.example.myweather.utils.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WeatherListViewModel
 @Inject
 constructor(private val weatherUseCase: WeatherUseCase) : BaseViewModel() {
     private val weathers = MutableLiveData<List<Weather>>()
+    private val isError = SingleLiveEvent<Event<Boolean>>()
 
     fun fetchForecast(city: String) {
         addDisposable(
@@ -21,12 +28,17 @@ constructor(private val weatherUseCase: WeatherUseCase) : BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { result ->
-                        weathers.value = result.weathers
+                        val weathersResult = result.weathers
                             .filterIndexed { idx, _ -> idx % 8 == 0 }
                             .map { it.toWeather() }
+                        if (weathersResult.isEmpty()) {
+                            isError.value = Event(true)
+                        } else {
+                            weathers.value = weathersResult
+                        }
                     },
                     {
-
+                        isError.value = Event(true)
                     }
                 )
         )
@@ -34,8 +46,5 @@ constructor(private val weatherUseCase: WeatherUseCase) : BaseViewModel() {
 
     fun getWeathers(): LiveData<List<Weather>> = weathers
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("tada", "tada")
-    }
+    fun isError(): LiveData<Event<Boolean>> = isError
 }
