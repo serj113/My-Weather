@@ -4,20 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.myweather.ui.viewmodel.WeatherListViewModel" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:name="com.example.myweather.weatherlist.WeatherListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
+        android:background="@color/appBackground"
+        android:orientation="vertical"
         app:layoutManager="LinearLayoutManager"
         tools:context=".ui.weatherlist.WeatherListFragment"
-        tools:listitem="@layout/fragment_weather_list_item" />
+        tools:listitem="@layout/fragment_weather_list_item">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="56dp"
+            android:layout_marginBottom="62dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_current_temp"
+                style="@style/CurrentTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@{viewModel.currentDegree}" />
+
+            <TextView
+                android:id="@+id/tv_current_location"
+                style="@style/CurrentLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@{viewModel.currentTime}" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shadow"
+            android:paddingLeft="@dimen/standard_padding"
+            android:paddingTop="@dimen/standard_padding"
+            android:paddingRight="@dimen/standard_padding"
+            android:paddingBottom="@dimen/standard_padding"
+            app:animating="@{true}"
+            app:animationSource="@{@anim/slide_in_top}" />
+    </LinearLayout>
 </layout>

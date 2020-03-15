@@ -11,6 +11,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.myweather.databinding.FragmentErrorBinding
 import com.example.myweather.ui.viewmodel.ErrorViewModel
 import com.example.myweather.utils.ViewModelFactory
+import com.example.myweather.utils.goTo
+import com.example.myweather.utils.isTrue
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -37,10 +39,8 @@ class ErrorFragment : Fragment() {
         binding.lifecycleOwner = this
 
         viewModel.isRetry().observe(viewLifecycleOwner, Observer {
-            var result = it.getContentIfNotHandled()
-            if (result != null && result) {
-                val direction = ErrorFragmentDirections.actionErrorFragmentToLoadingFragment()
-                NavHostFragment.findNavController(this).navigate(direction)
+            if (it.isTrue()) {
+                goTo(ErrorFragmentDirections.actionErrorFragmentToLoadingFragment())
             }
         })
 

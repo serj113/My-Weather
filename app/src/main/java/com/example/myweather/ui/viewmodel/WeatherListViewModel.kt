@@ -15,10 +15,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.min
 
 class WeatherListViewModel
 @Inject
 constructor(private val weatherUseCase: WeatherUseCase) : BaseViewModel() {
+    private val currentTime = MutableLiveData<String>()
+    private val currentDegree = MutableLiveData<String>()
     private val weathers = MutableLiveData<List<Weather>>()
     private val isError = SingleLiveEvent<Event<Boolean>>()
 
@@ -30,11 +33,17 @@ constructor(private val weatherUseCase: WeatherUseCase) : BaseViewModel() {
                     { result ->
                         val weathersResult = result.weathers
                             .filterIndexed { idx, _ -> idx % 8 == 0 }
-                            .map { it.toWeather() }
+                            .map { it.toWeather() }.toMutableList()
+                        weathersResult.add(result.weathers.last().toWeather())
                         if (weathersResult.isEmpty()) {
                             isError.value = Event(true)
                         } else {
-                            weathers.value = weathersResult
+                            currentDegree.value = "${String.format("%.0f", weathersResult.first().temp)}\u00B0"
+                            currentTime.value = weathersResult.first().day
+                            weathers.value = weathersResult.subList(
+                                min(1, weathersResult.lastIndex),
+                                weathersResult.lastIndex
+                            )
                         }
                     },
                     {
@@ -43,6 +52,10 @@ constructor(private val weatherUseCase: WeatherUseCase) : BaseViewModel() {
                 )
         )
     }
+
+    fun getCurrentTime(): LiveData<String> = currentTime
+
+    fun getCurrentDegree(): LiveData<String> = currentDegree
 
     fun getWeathers(): LiveData<List<Weather>> = weathers
 

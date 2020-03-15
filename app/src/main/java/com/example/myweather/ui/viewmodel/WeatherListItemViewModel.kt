@@ -8,14 +8,14 @@ import com.example.myweather.ui.model.Weather
 
 class WeatherListItemViewModel : BaseViewModel() {
     private val time = MutableLiveData<String>()
-    private val degree = MutableLiveData<Double>()
+    private val degree = MutableLiveData<String>()
 
     fun bind(item: Weather) {
         time.value = item.day
-        degree.value = item.temp
+        degree.value = "${String.format("%.0f", item.temp)}\u00B0"
     }
 
     fun getTime(): LiveData<String> = time
 
-    fun getDegree(): LiveData<Double> = degree
+    fun getDegree(): LiveData<String> = degree
 }

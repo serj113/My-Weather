@@ -8,28 +8,25 @@
             type="com.example.myweather.ui.viewmodel.WeatherListItemViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="80dp">
 
         <TextView
+            style="@style/Forecast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="@{viewModel.time}"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@{viewModel.time}" />
 
         <TextView
+            style="@style/Forecast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="@{viewModel.degree.toString()}"
-            android:textAppearance="?attr/textAppearanceListItem" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@{viewModel.degree}"/>
+
+    </RelativeLayout>
 </layout>

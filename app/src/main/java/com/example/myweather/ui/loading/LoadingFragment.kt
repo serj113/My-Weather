@@ -11,6 +11,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.myweather.databinding.FragmentLoadingBinding
 import com.example.myweather.ui.viewmodel.WeatherListViewModel
 import com.example.myweather.utils.ViewModelFactory
+import com.example.myweather.utils.goTo
+import com.example.myweather.utils.isTrue
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -36,14 +38,11 @@ class LoadingFragment : Fragment() {
         binding.lifecycleOwner = this
 
         viewModel.getWeathers().observe(viewLifecycleOwner, Observer {
-            val direction = LoadingFragmentDirections.actionLoadingFragmentToWeatherListFragment()
-            NavHostFragment.findNavController(this).navigate(direction)
+            goTo(LoadingFragmentDirections.actionLoadingFragmentToWeatherListFragment())
         })
         viewModel.isError().observe(viewLifecycleOwner, Observer {
-            var result = it.getContentIfNotHandled()
-            if (result != null && result) {
-                val direction = LoadingFragmentDirections.actionLoadingFragmentToErrorFragment()
-                NavHostFragment.findNavController(this).navigate(direction)
+            if (it.isTrue()) {
+                goTo(LoadingFragmentDirections.actionLoadingFragmentToErrorFragment())
             }
         })
         viewModel.fetchForecast("Jakarta")

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.myweather.ui.viewmodel.ErrorViewModel" />
@@ -11,12 +12,34 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/errorBackground"
         tools:context=".ui.error.ErrorFragment">
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Retry"
-            android:onClick="@{() -> viewModel.retry()}"/>
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/large_padding"
+            android:paddingRight="@dimen/large_padding">
+
+            <TextView
+                android:id="@+id/description"
+                style="@style/Error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/error_fragment_description" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/description"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="44dp"
+                android:background="@color/buttonErrorBackground"
+                android:onClick="@{() -> viewModel.retry()}"
+                android:text="@string/error_fragment_retry"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
     </FrameLayout>
 </layout>
