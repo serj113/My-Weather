@@ -7,27 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myweather.base.BaseFragment
 import com.example.myweather.databinding.FragmentWeatherListBinding
 import com.example.myweather.ui.viewmodel.WeatherListViewModel
 import com.example.myweather.utils.PermissionUtils
-import com.example.myweather.utils.ViewModelFactory
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
 
-class WeatherListFragment : Fragment() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+class WeatherListFragment : BaseFragment<WeatherListViewModel>() {
 
     private lateinit var adapter: MyWeatherRecyclerViewAdapter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val locationCallback = object : LocationCallback() {
-
         override fun onLocationResult(p0: LocationResult) {
             super.onLocationResult(p0)
             p0.let {
@@ -36,10 +35,8 @@ class WeatherListFragment : Fragment() {
         }
     }
 
-    private var PERMISSION_ID = 44
-
-    private val viewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory).get(WeatherListViewModel::class.java)
+    override fun initVM() {
+        vm = ViewModelProviders.of(requireActivity(), viewModelFactory).get(WeatherListViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,14 +53,14 @@ class WeatherListFragment : Fragment() {
         val binding = FragmentWeatherListBinding.inflate(inflater, container, false)
         adapter = MyWeatherRecyclerViewAdapter()
 
-        binding.viewModel = viewModel
+        binding.viewModel = vm
         binding.lifecycleOwner = this
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
         }
 
-        viewModel.getWeathers().observe(viewLifecycleOwner, Observer {
+        vm.getWeathers().observe(viewLifecycleOwner, Observer {
             adapter.setItems(it)
         })
 
@@ -129,5 +126,9 @@ class WeatherListFragment : Fragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        private const val PERMISSION_ID = 44
     }
 }

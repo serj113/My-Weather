@@ -1,27 +1,22 @@
 package com.example.myweather.ui.error
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.NavHostFragment
+import com.example.myweather.base.BaseFragment
 import com.example.myweather.databinding.FragmentErrorBinding
 import com.example.myweather.ui.viewmodel.ErrorViewModel
-import com.example.myweather.utils.ViewModelFactory
 import com.example.myweather.utils.goTo
 import com.example.myweather.utils.isTrue
 import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
 
-class ErrorFragment : Fragment() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+class ErrorFragment : BaseFragment<ErrorViewModel>() {
 
-    private val viewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory).get(ErrorViewModel::class.java)
+    override fun initVM() {
+        vm = ViewModelProviders.of(requireActivity(), viewModelFactory).get(ErrorViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,10 +30,10 @@ class ErrorFragment : Fragment() {
     ): View? {
         val binding = FragmentErrorBinding.inflate(inflater, container, false)
 
-        binding.viewModel = viewModel
+        binding.viewModel = vm
         binding.lifecycleOwner = this
 
-        viewModel.isRetry().observe(viewLifecycleOwner, Observer {
+        vm.isRetry().observe(viewLifecycleOwner, Observer {
             if (it.isTrue()) {
                 goTo(ErrorFragmentDirections.actionErrorFragmentToLoadingFragment())
             }
